@@ -1,0 +1,134 @@
+.checkbox {
+  margin: 0 auto;
+  margin-left: 70px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 12px;
+  height: 20px;
+  align-items: center;
+}
+
+.checkbox__input {
+  display: none;
+}
+
+.checkbox__label {
+  position: relative;
+  cursor: pointer;
+  color: #000;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.checkbox__label::after {
+  content: "";
+  width: 36px;
+  height: 20px;
+  background-color: #3ddc84;
+  border-radius: 20px;
+  border: none;
+  position: absolute;
+  left: -47px;
+  bottom: -1px;
+}
+
+.checkbox__label::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  left: -29px;
+  top: 5px;
+  z-index: 1;
+  transition: 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.checkbox__input:checked + .checkbox__label::before {
+  background-color: #343434;
+  left: -45px;
+}
+
+.checkbox__input:checked + .checkbox__label::after {
+  background-color: #a0a0a0;
+}
+
+@media (min-width: 550px) and (max-width: 768px) {
+  .checkbox__label::after {
+    content: "";
+    width: 36px;
+    height: 20px;
+    background-color: #3ddc84;
+    border-radius: 20px;
+    border: none;
+    position: absolute;
+    left: 133px;
+    bottom: -1px;
+  }
+  .checkbox__label::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    left: 155px;
+    top: 5px;
+    z-index: 1;
+    transition: 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+
+
+  
+  .checkbox {
+    width: 170px;
+    margin: auto;
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 550px) {
+  .checkbox {
+    margin: 0 auto;
+    margin-left: 86px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 12px;
+    height: 20px;
+    align-items: center;
+  }
+  .checkbox__label::after {
+    content: "";
+    width: 36px;
+    height: 20px;
+    background-color: #3ddc84;
+    border-radius: 20px;
+    border: none;
+    position: absolute;
+    left: 103px;
+    bottom: -1px;
+  }
+  .checkbox__label::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    left: 125px;
+    top: 5px;
+    z-index: 1;
+    transition: 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+
+  .checkbox__label {
+    position: relative;
+    cursor: pointer;
+    color: #000;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 18px;
+  }
+}
