@@ -31,7 +31,7 @@
 @media (min-width: 550px) and (max-width: 768px) {
   .promo {
     height: 834px;
-    width: 728px;
+    max-width: 728px;
     margin: 0 auto;
     margin-top: 20px;
   }
@@ -44,7 +44,7 @@
 
 @media (min-width: 320px) and (max-width: 550px) {
   .promo {
-    width: 292px;
+    max-width: 292px;
     margin: 0 auto;
     background-position: center;
     height: 586px;

@@ -35,6 +35,13 @@
   margin-bottom: 20px;
   padding-bottom: 0;
   border-bottom: 1px solid #e8e8e8;
+  font-family: 'Inter';
+font-style: normal;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 60px;
+    letter-spacing: -0.04em;
+    text-align: center;
 }
 
 .portfolio__website:last-child {
@@ -43,10 +50,11 @@
 }
 
 .portfolio__link {
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 50px;
-  letter-spacing: -0.04em;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 60px;
+
+    letter-spacing: -0.04em;
   text-align: left;
   color: #000;
   text-decoration: none;
@@ -62,14 +70,16 @@
 }
 
 .portfolio__icon {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 60px;
-  /* identical to box height, or 200% */
+    position: relative;
+    min-width: 29px;
+    height: 60px;
+    transition: opacity .2s linear;
+    cursor: pointer;
+}
 
-  letter-spacing: -0.04em;
+.portfolio__icon-img {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 @media (min-width: 550px) and (max-width: 768px) {
@@ -78,9 +88,19 @@
   }
 
   .portfolio__link {
+    font-weight: 400;
     font-size: 28px;
-    line-height: 50px;
+    line-height: 60px;
   }
+
+.portfolio__icon {
+    min-width: 27px;
+}
+
+.portfolio__icon-img {
+    padding-left: 4px;
+    padding-right: 4px;
+}
 }
 
 @media (min-width: 320px) and (max-width: 550px) {
@@ -99,13 +119,16 @@
     line-height: 28px;
   }
 
-  .portfolio__item {
+  .portfolio__website {
     padding-bottom: 17px;
     margin-bottom: 21px;
-  }
-
-  .portfolio__icon {
     font-size: 18px;
     line-height: 28px;
   }
+
+  /* .portfolio__icon {
+    font-size: 18px;
+    line-height: 28px;
+
+  } */
 }

@@ -118,7 +118,7 @@
   }
 
   .about__backend {
-    width: 142px;
+    max-width: 142px;
     min-width: 20%;
   }
 

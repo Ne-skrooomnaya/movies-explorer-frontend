@@ -40,7 +40,7 @@
   border-radius: 50%;
   background-color: #fff;
   position: absolute;
-  left: -29px;
+  left: -24px;
   top: 5px;
   z-index: 1;
   transition: 0.2s ease-in-out, background-color 0.2s ease-in-out;
@@ -48,7 +48,7 @@
 
 .checkbox__input:checked + .checkbox__label::before {
   background-color: #343434;
-  left: -45px;
+  left: -43px;
 }
 
 .checkbox__input:checked + .checkbox__label::after {
@@ -80,7 +80,9 @@
     transition: 0.2s ease-in-out, background-color 0.2s ease-in-out;
   }
 
-
+  .checkbox__input:checked + .checkbox__label::before {
+    left: 140px;
+  }
   
   .checkbox {
     width: 170px;
@@ -121,6 +123,10 @@
     top: 5px;
     z-index: 1;
     transition: 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+
+  .checkbox__input:checked + .checkbox__label::before {
+    left: 110px;
   }
 
   .checkbox__label {
