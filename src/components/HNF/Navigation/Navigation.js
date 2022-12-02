@@ -43,7 +43,7 @@ const NavigationMovies = () => {
                         Фильмы
                     </NavLink>
                     <NavLink className={setActiveLink} to="/saved-movies">
-                        Сохраненные фильмы
+                        Сохранённые фильмы
                     </NavLink>
                 </div>
                 <div className='navigation__btn-container'>

@@ -102,7 +102,11 @@
 
   .techs__link {
     font-size: 12px;
-    line-height: 14.52px;
+    line-height: 15px;
+  }
+
+  .techs__btn {
+    max-width: 84px;
   }
 }
 

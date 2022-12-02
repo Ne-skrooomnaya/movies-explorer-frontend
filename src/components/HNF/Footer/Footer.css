@@ -2,7 +2,8 @@
   margin: 0;
   padding: 79px 70px 20px;
   background-color: #fafafa;
-  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-family: 'Inter';
+  font-style: normal;
 }
 
 .footer__subtitle {
@@ -12,8 +13,8 @@
   text-align: center;
   color: #8b8b8b;
   border-bottom: 1px solid #E8E8E8;
-  font-size: 13px;
   font-weight: 400;
+  font-size: 13px;
   line-height: 16px;
 }
 

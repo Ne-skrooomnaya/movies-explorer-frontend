@@ -1,6 +1,8 @@
 .movies {
   background-color: #fff;
   height: max-content;
+  font-family: 'Inter';
+  font-style: normal;
 }
 
 .movies__container {

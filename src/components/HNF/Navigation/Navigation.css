@@ -4,6 +4,8 @@
   text-align: center;
   flex-direction: row;
   justify-content: space-between;
+  font-family: "Inter";
+  font-style: normal;
 }
 
 .navigation-movies {
@@ -16,15 +18,13 @@
 
 .navigation__container-movies {
   height: 18px;
-  width: 231px;
+max-width: 231px;
   color: #000;
   display: flex;
   align-items: center;
   column-gap: 20px;
   justify-content: space-around;
   flex-direction: row;
-  font-family: "Inter";
-  font-style: normal;
 }
 
 .navigation__container {
@@ -34,14 +34,10 @@
   column-gap: 30px;
   justify-content: space-between;
   flex-direction: row;
-  font-family: "Inter";
-  font-style: normal;
-  font-size: 13px;
-  line-height: 18px;
 }
 
 .navigation__btn-container {
-  width: 100px;
+  max-width: 100px;
   height: 32px;
   right: 0;
   padding: 0px;
@@ -59,7 +55,6 @@
   flex-direction: row;
   border: none;
   text-decoration: none;
-  transition: opacity 0.2 linear;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
@@ -72,7 +67,7 @@
 }
 
 .navigation__entry-btn {
-  width: 76px;
+  max-width: 76px;
   height: 32px;
   padding-top: 7px;
   margin-left: 14px;
@@ -82,7 +77,6 @@
   background-color: #3ddc84;
   color: #000;
   box-sizing: border-box;
-  transition: opacity 0.2 linear;
   cursor: pointer;
   font-weight: 500;
   font-size: 12px;
@@ -102,19 +96,31 @@
   text-align: center;
   text-decoration: none;
   color: black;
-  transition: opacity 0.2 linear;
-  font-style: normal;
-  font-weight: 400;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
   font-size: 14px;
   line-height: 18px;
 }
 
 .navigation__link_register {
-  font-size: 12px;
-  line-height: 16px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
 }
 
 .navigation__link:hover {
+  opacity: 0.8;
+}
+
+.navigation__link:last-of-type {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.navigation__link-active:hover {
   opacity: 0.8;
 }
 
@@ -140,9 +146,6 @@
   text-align: center;
   text-decoration: none;
   color: #000;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
 }
 
 @media (min-width: 550px) and (max-width: 768px) {

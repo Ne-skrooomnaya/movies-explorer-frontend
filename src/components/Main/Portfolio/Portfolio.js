@@ -13,7 +13,7 @@ const Portfolio = () => {
                     rel="noopener noreferrer"
                     href='https://github.com/Ne-skrooomnaya/how-to-learn/'>
                         Статичный сайт
-                        <div className="portfolio__icon">
+                    <div className="portfolio__icon">
                         <img src={str} alt="logo" className='portfolio__icon-img' />
                     </div>                    
                     </a>
@@ -25,7 +25,7 @@ const Portfolio = () => {
                     rel="noopener noreferrer"
                     href='https://github.com/Ne-skrooomnaya/russian-travel/'>
                         Адаптивный сайт
-                        <div className="portfolio__icon">
+                    <div className="portfolio__icon">
                         <img src={str} alt="logo" className='portfolio__icon-img'/>
                     </div>                    
                     </a>
