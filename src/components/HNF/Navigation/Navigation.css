@@ -67,7 +67,7 @@ max-width: 231px;
 }
 
 .navigation__entry-btn {
-  max-width: 76px;
+  min-width: 76px;
   height: 32px;
   padding-top: 7px;
   margin-left: 14px;
@@ -93,6 +93,7 @@ max-width: 231px;
 
 .navigation__link {
   height: 18px;
+  min-width: 153px;
   text-align: center;
   text-decoration: none;
   color: black;

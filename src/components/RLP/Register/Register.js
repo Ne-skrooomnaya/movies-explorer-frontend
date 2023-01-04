@@ -1,28 +1,27 @@
 import '../Login/Login.css';
-
-import Logo from '../../Logo/Logo';
 import { NavLink } from 'react-router-dom';
-import React, {useState} from 'react';
+import Logo from '../../Logo/Logo';
+import React, { useState } from 'react';
 
-const Register = ({handleRegister}) => {
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+function Register(props) {
+  const [state, setState] = useState({
+    password: '',
+    email: '',
+    name: ''
+  })
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setData({
-      ...data,
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setState({
+      ...state,
       [name]: value,
     });
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleRegister(data);
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.handleRegister(state);
+  }
 
   return (
     <section className="form register">
@@ -35,6 +34,13 @@ const Register = ({handleRegister}) => {
           className="form__input"
           name='name'
           type='text'
+          // value={state.name} 
+          onChange={handleChange}
+          id='register__name'
+          minLength={2}
+          maxLength={40}
+          placeholder='Имя'
+          // pattern='[A-Za-zа-яА-ЯёЁ0-9-\s]{2,40}' 
           />
         </label>
         <label className="form__input-container">
@@ -43,8 +49,13 @@ const Register = ({handleRegister}) => {
           className="form__input"
           name='email'
           type='text'
+          value={state.email} 
           onChange={handleChange}
-           />
+          id='register__email'
+          minLength={2}
+          maxLength={40}
+          placeholder='E-mail'
+          pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' />
         </label>
         <label className="form__input-container">
           <span className="form__input-text">Пароль</span>
@@ -52,14 +63,20 @@ const Register = ({handleRegister}) => {
           className="form__input"
           name="password"
           type="password"
+          value={state.password} 
           onChange={handleChange}
-           />
+          id='register__password'
+          minLength={2}
+          maxLength={40}
+          placeholder='Пароль'
+          pattern="[\w]{2,40}$"
+      />
         </label>
       </form>
         <button
         className="form__btn-submit"
-        onClick={handleRegister}
-        type='button'
+        type='submit'
+        onClick={handleSubmit}
         >Зарегистрироваться
         </button>
         <div className="form__subtitle">

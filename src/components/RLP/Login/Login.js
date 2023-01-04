@@ -1,26 +1,26 @@
 import './Login.css';
 import Logo from '../../Logo/Logo';
 import {NavLink} from 'react-router-dom';
-import React, {useState} from 'react';
+import React, { useState }  from 'react';
 
-  const Login = ({handleLogin}) => {
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
+function Login(props) {
+  const [state, setState] = useState({
+    password: '',
+    email: ''
+  })
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setData({
-      ...data,
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setState((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }))
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleLogin(data);
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.handleLogin(state);
+  }
 
   return (
     <section className="form login">
@@ -33,9 +33,14 @@ import React, {useState} from 'react';
           className="form__input"
           name='email'
           type='text'
-          onChange={handleChange}
-          value={data.email}
-           />
+          value={state.email} 
+          onChange={handleChange} 
+          id='login__email'
+          required
+          minLength={2}
+          maxLength={40}
+          placeholder='E-mail' 
+          pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' />
         </label>
         <label className="form__input-container">
           <span className="form__input-text">Пароль</span>
@@ -43,14 +48,19 @@ import React, {useState} from 'react';
           className="form__input"
           name="password"
           type="password"
+          value={state.password} 
           onChange={handleChange}
-          value={data.password}
-           />
+          id='login__password'
+          required
+          minLength={2}
+          maxLength={40}
+          placeholder='Пароль' 
+          pattern="[\w]{2,40}$"/>
         </label>
       </form>
       <button
       className="form__btn-submit"
-      onClick={handleLogin}
+      onClick={handleSubmit}
       type='button'
       >
         Войти
