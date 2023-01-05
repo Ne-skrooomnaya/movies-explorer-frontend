@@ -1,5 +1,6 @@
 import React, {useState, useEffect}   from 'react';
 import { Route, useNavigate, Routes } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 import Header from '../HNF/Header/Header';
 import Main from '../Main/Main';
@@ -19,54 +20,65 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 const App = () => {
   const navigate = useNavigate();
-  
+
+
   const [movies, setMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
-
-  const [selectedCard, setSelectedCard] = useState(null);
+  // const [userEmail, setUserEmail] = useState("");
+  // const [userName, setUserName] = useState("");
+  const [isInfoTooltip, setIsInfoTooltip] = useState(false);
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
+  const [isGoodInfoTooltip, setIsGoodInfoTooltip] = useState(false);
+  // const [selectedCard, setSelectedCard] = useState(null);
 //   const [moviesToDelete, setMoviesToDelete] = useState([]);
 
-const [currentUser, setCurrentUser] = useState({name: '', email: '', _id: ''});
+const [currentUser, setCurrentUser] = useState({});
 
 useEffect(() => {
     checkToken();
   }, [])
 
   useEffect(() => {
-    if (loggedIn) {
-      navigate("/movies");
-    }
-  }, [loggedIn, navigate]);
-
-//   useEffect(() => {
-//     if (loggedIn) {
-//       mainApi.getUser()
-//       .then((data) => {
-//         setCurrentUser(data);
-//       }).catch((err) => console.log(`Ошибка: ${err}`));
-//     }
-//   }, [loggedIn]);
+    const token = localStorage.getItem('token');
+    mainApi.getUser(token).then((data) => {
+        setLoggedIn(true);
+        console.log(data.data);
+        setCurrentUser(data);
+        // setUserEmail(data.email);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [loggedIn ]);
 
   const checkToken = () => {
     const token = localStorage.getItem("token");
     if (token) {
-        auth.Token(token).then((res) => {
-        if (res.email) {
-          setUserEmail(res.email);
+        auth.Token(token).then((user) => {
+        if (user) {
+          setCurrentUser(user);
           setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
         }
       }).catch((err) => {
         console.log(err);
       });
+      }
     }
-  }
 
-//   const handleLogin = ({ email, password }) => {
-//       setLoggedIn(true);
-//       console.log({ email, password });
-//       navigate('/movies');
-//   };
+  const handleRegister = ({ password, email, name }) => {
+    return auth.register({ password, email, name })
+      .then((user) => {
+        if (user) {
+            handleLogin({email, password});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   const handleLogin = ({ password, email }) => {
     return auth.login({ password, email })
@@ -74,68 +86,55 @@ useEffect(() => {
         if (res.token) {
           mainApi.setToken(res.token);
           localStorage.setItem("token", res.token);
-          // tokenCheck();
+          setLoggedIn(true);
           navigate("/movies");
+          checkToken()
         }
-        setLoggedIn(true);
-        setUserEmail(email);
       })
       .catch((err) => {
         console.log(err);
-        // setInfoTooltipOpen({ opened: true, success: false });
       });
   }
-//   const handleRegister = ({ name, email, password }) => {
-//       setLoggedIn(true);
-//       console.log({ name, email, password });
-//       navigate('/movies');
-//   };
+    function logOut() {
+      localStorage.removeItem("token");
+      localStorage.removeItem('moviesAll')
+      localStorage.removeItem("movies");
+      localStorage.removeItem("word");
+      localStorage.removeItem("checkbox");
+      localStorage.removeItem("collection");
+      localStorage.removeItem("moviesTumbler");
+      localStorage.removeItem("moviesInputSearch");
+      localStorage.removeItem("savedMoviesTumbler");
+      localStorage.removeItem("savedMoviesInputSearch");
+      setLoggedIn(false);
+          localStorage.clear();
+    }
 
-const handleRegister = ({ password, email, name }) => {
-    return auth.register({ password, email, name })
-      .then((data) => {
-        if (data.email) {
-          localStorage.setItem("token", data.token);
-          setUserEmail(email);
-        }
-        // setInfoTooltipOpen({ opened: true, success: true });
-        navigate("/movies");
+
+  function updateProfile({name, email}) {
+    mainApi.editUser({name, email}).then(() => {
+        setIsInfoTooltip(true);
+        setIsGoodInfoTooltip(true);
+        setInfoTooltipMessage('Профиль успешно обновлен.')
       })
-      .catch((err) => {
-        console.log(err);
-        // setInfoTooltipOpen({ opened: true, success: false });
-      });
+    .catch((err) =>  {
+      console.log(err);
+    });
   }
 
-  const handleLogOut = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-    // setCurrentUser({});
-    setUserEmail(null);
-    setLoggedIn(false);
-  }
-
-  const handleClick = (card) => {
-    setSelectedCard(card);
-  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='App'>
         <main className='content'>
         <Header 
-         email={userEmail} 
          loggedIn={loggedIn} 
-         onClick={handleClick}
-         handleLogOut={handleLogOut} 
          />
-                  <Routes>
-                  <Route path='/signup' element={<Register handleRegister={handleRegister}/>} />
-                  <Route path='/signin' element={<Login handleLogin={handleLogin}/>} />
-                  <Route path='/' element={<Main />} /> 
-                  {/* <Route path='/movies' element={<Movies />} /> */}
-
-                  <Route path="/movies" element={<ProtectedRoute
+          <Routes>
+            <Route path='/signup' element={<Register handleRegister={handleRegister}/>} />
+            <Route path='/signin' element={<Login handleLogin={handleLogin}/>} />
+            <Route path='/' element={<Main />} /> 
+            <Route path="/movies" element={<ProtectedRoute
               component={Movies}
               loggedIn={loggedIn}
               movies={movies}
@@ -151,10 +150,12 @@ const handleRegister = ({ password, email, name }) => {
             <Route path="/profile" element={<ProtectedRoute
               component={Profile}
               loggedIn={loggedIn}
-            handleLogOut={handleLogOut}            />
+              onProfileExit={logOut} 
+               onUpdateProfileData={updateProfile}
+            // email={userEmail} 
+            // name={userName} 
+            />
             } />
-                  {/* <Route path='/saved-movies' element={<SavedMovies />} /> */}
-                  {/* <Route path='/profile' element={<Profile handleLogOut={handleLogOut}/>} /> */}
                   <Route path='*' element={<PageNotFound/>} /> 
               </Routes>
           </main>
@@ -165,3 +166,31 @@ const handleRegister = ({ password, email, name }) => {
 };
 
 export default App;
+
+// useEffect(() => {
+//     if (location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/profile'
+//         || location.pathname === '/saved-movies' || location.pathname === '/signin' || location.pathname === '/signup') {
+//         setIsHeader(true);
+//     } else {
+//         setIsHeader(false);
+//     }
+// }, [location, isHeader]);
+
+// useEffect(() => {
+//     if (location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/saved-movies') {
+//         setIsFooter(true);
+//     } else {
+//         setIsFooter(false);
+//     }
+// }, [location, isHeader]);
+
+
+
+//   useEffect(() => {
+//     if (loggedIn) {
+//       mainApi.getUser()
+//       .then((data) => {
+//         setCurrentUser(data);
+//       }).catch((err) => console.log(`Ошибка: ${err}`));
+//     }
+//   }, [loggedIn]);\

@@ -18,7 +18,7 @@
 
 .navigation__container-movies {
   height: 18px;
-max-width: 231px;
+  min-width: 231px;
   color: #000;
   display: flex;
   align-items: center;
@@ -93,7 +93,6 @@ max-width: 231px;
 
 .navigation__link {
   height: 18px;
-  min-width: 153px;
   text-align: center;
   text-decoration: none;
   color: black;
@@ -106,9 +105,9 @@ max-width: 231px;
 }
 
 .navigation__link_register {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .navigation__link:hover {
@@ -147,6 +146,9 @@ max-width: 231px;
   text-align: center;
   text-decoration: none;
   color: #000;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 @media (min-width: 550px) and (max-width: 768px) {

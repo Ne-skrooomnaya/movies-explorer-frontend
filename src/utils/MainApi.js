@@ -22,10 +22,13 @@ class MainApi {
   }
   
     // вернуть инфу
-    getUser() {
+    getUser(token) {
       return fetch(`${this._baseUrl}/users/me`, {
         method: "GET",
-        headers: this._headers
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
       }).then(this._checkResponse);
     }
 
@@ -34,7 +37,10 @@ class MainApi {
       return fetch(`${this._baseUrl}/users/me`, {
         method: "PATCH",
         headers: this._headers,
-        body: JSON.stringify({name, email}),
+        body: JSON.stringify({
+            name: name,
+            email: email,
+        })
       }).then(this._checkResponse);
     }
 

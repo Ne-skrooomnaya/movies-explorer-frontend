@@ -34,13 +34,13 @@ function Register(props) {
           className="form__input"
           name='name'
           type='text'
-          // value={state.name} 
+          value={state.name} 
           onChange={handleChange}
           id='register__name'
           minLength={2}
           maxLength={40}
           placeholder='Имя'
-          // pattern='[A-Za-zа-яА-ЯёЁ0-9-\s]{2,40}' 
+          pattern='[A-Za-zа-яА-ЯёЁ0-9-\s]{2,40}' 
           />
         </label>
         <label className="form__input-container">

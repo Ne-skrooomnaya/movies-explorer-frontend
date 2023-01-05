@@ -1,34 +1,45 @@
-// import {useCallback, useState} from 'react';
-// import isEmail from 'validator/es/lib/isEmail';
+import React from "react";
+import { useCallback } from "react";
 
-// //хук управления формой и валидации формы
-// const useFormValidation = () => {
-//     const [values, setValues] = useState({ name: '', email: '', password: ''});
-//     const [errors, setErrors] = useState({});
-//     const [isValid, setIsValid] = useState(false);
+function useFormValidation() {
+  const [values, setValues] = React.useState({});
+  const [errors, setErrors] = React.useState({});
+  const [isValid, setIsValid] = React.useState(false);
 
-//     const handleChange = (e) => {
-//         const target = e.target;
-//         const name = target.name;
-//         const value = target.value;
-//         setValues({...values, [name]: value});
-//         setErrors({...errors, [name]: target.validationMessage });
-//         if (name === 'email' && !isEmail(value)) {
-//             setErrors({ ...errors, email: 'Некорректный формат почты' });
-//         }
-//         setIsValid(target.closest("form").checkValidity());
-//     };
+  const handleChange = (e) => {
+    const target = e.target;
+    const name = target.name;
+    const value = target.value;
 
-//     const resetForm = useCallback(
-//         (newValues = { name: '', email: '', password: '' }, newErrors = {}, newIsValid = false) => {
-//         setValues(newValues);
-//         setErrors(newErrors);
-//         setIsValid(newIsValid);
-//         },
-//         [setValues, setErrors, setIsValid]
-//     );
+    setValues({...values, [name]: value});
+    setErrors({...errors, [name]: target.validationMessage });
 
-//     return { values, setValues, handleChange, errors, isValid, setIsValid, resetForm };
-// }
+    if (name === "name") {
+      if(value.length === 0) {
+        setErrors({...errors, [name]: "Пожалуйста заполните это поле"});
+      }
+    }
 
-// export default useFormValidation;
+    if (name === "email" || name === "password") {
+      if(value.length === 0) {
+        setErrors({...errors, [name]: "Пожалуйста заполните это поле"});
+      }
+    }
+
+    setIsValid(target.closest("form").checkValidity());
+
+  };
+
+  const resetForm = useCallback(
+    (newValues = {}, newErrors = {}, newIsValid = false) => {
+      setValues(newValues);
+      setErrors(newErrors);
+      setIsValid(newIsValid);
+    },
+    [setValues, setErrors, setIsValid]
+  );
+
+  return { values, handleChange, errors, isValid, resetForm };
+}
+
+export default useFormValidation;
