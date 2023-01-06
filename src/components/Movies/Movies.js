@@ -2,11 +2,11 @@ import './Movies.css'
 import SearchForm from '../Movies/SearchForm/SearchForm';
 import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 
-const Movies = () => {
+const Movies = ({loggedIn, movies}) => {
     return (
         <>
           <SearchForm />
-          <MoviesCardList />
+          <MoviesCardList loggedIn={loggedIn} movies={movies}/>
         </>
     )
 }

@@ -1,9 +1,9 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import movies from '../../../utils/utils'
+// import movies from '../../../utils/utils'
 import { useLocation } from 'react-router-dom';
 
-const MoviesCardList = () => {
+function MoviesCardList(props) {
 
   const location = useLocation();
 
@@ -13,11 +13,18 @@ const MoviesCardList = () => {
     <section className="movies">
         <div className="movies__container">
             <ul className="movies__list">
-                {movies.map((movie) => {
-                    return (
-                    <MoviesCard key={movie._id} movie={movie} />
-                    );
-                })}
+            {
+              // eslint-disable-next-line array-callback-return
+              props.movies.map((movie) => {
+                    <MoviesCard 
+                    key={movie._id} 
+                    movie={movie} 
+                    // onCardClick={props.onCardClick}
+                    // onCardLike={props.onCardLike}
+                    // onCardDelete={props.onCardDelete}
+                    />
+                })
+                }
             </ul>
         </div>
         <div className='movies__container-btn'>

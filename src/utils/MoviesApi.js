@@ -14,8 +14,14 @@ class MoviesApi {
     getMovies() {
         return fetch(`${this._baseUrl}/beatfilm-movies`, {
             method: 'GET',
-        }).then(this._checkResponse);
-    }
+            headers: this._headers
+        }).then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          return Promise.reject('Не удалось отобразить карточки');
+        });
+      }
   }
   
 

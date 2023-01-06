@@ -1,6 +1,5 @@
 import React, {useState, useEffect}   from 'react';
 import { Route, useNavigate, Routes } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
 
 import Header from '../HNF/Header/Header';
 import Main from '../Main/Main';
@@ -12,11 +11,12 @@ import Login from '../RLP/Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Footer from '../HNF/Footer/Footer';
 import './App.css';
-
+import moviesApi from '../../utils/MoviesApi';
 import * as auth from "../../utils/Auth";
 import { CurrentUserContext } from "../../configs/currentUserContext";
 import mainApi from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 
 const App = () => {
   const navigate = useNavigate();
@@ -39,18 +39,29 @@ useEffect(() => {
   }, [])
 
   useEffect(() => {
+    debugger
     const token = localStorage.getItem('token');
     mainApi.getUser(token).then((data) => {
         setLoggedIn(true);
         console.log(data.data);
+        
         setCurrentUser(data);
         // setUserEmail(data.email);
         
-      })
-      .catch((err) => {
+      }).catch((err) => {
         console.log(err);
       });
   }, [loggedIn ]);
+
+  useEffect(() => {
+      moviesApi.getMovies()
+      .then((response) => {
+        setMovies(response);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, []);
 
   const checkToken = () => {
     const token = localStorage.getItem("token");
@@ -95,20 +106,12 @@ useEffect(() => {
         console.log(err);
       });
   }
-    function logOut() {
-      localStorage.removeItem("token");
-      localStorage.removeItem('moviesAll')
-      localStorage.removeItem("movies");
-      localStorage.removeItem("word");
-      localStorage.removeItem("checkbox");
-      localStorage.removeItem("collection");
-      localStorage.removeItem("moviesTumbler");
-      localStorage.removeItem("moviesInputSearch");
-      localStorage.removeItem("savedMoviesTumbler");
-      localStorage.removeItem("savedMoviesInputSearch");
-      setLoggedIn(false);
-          localStorage.clear();
-    }
+  
+  const handleLogOut = () => {
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
+    navigate('/');
+  };
 
 
   function updateProfile({name, email}) {
@@ -150,7 +153,7 @@ useEffect(() => {
             <Route path="/profile" element={<ProtectedRoute
               component={Profile}
               loggedIn={loggedIn}
-              onProfileExit={logOut} 
+              onProfileExit={handleLogOut} 
                onUpdateProfileData={updateProfile}
             // email={userEmail} 
             // name={userName} 

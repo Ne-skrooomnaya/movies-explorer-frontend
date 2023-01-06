@@ -111,6 +111,9 @@
   color: #EE3465;
  }
 
+ .profile__error {
+  color: #EE3465;
+ }
 
 @media (min-width: 550px) and (max-width: 768px) {
   .profile {

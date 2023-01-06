@@ -27,8 +27,8 @@ class MainApi {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
       }).then(this._checkResponse);
     }
 
@@ -38,9 +38,9 @@ class MainApi {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
-            name: name,
-            email: email,
-        })
+          name,
+          email,
+        }),
       }).then(this._checkResponse);
     }
 

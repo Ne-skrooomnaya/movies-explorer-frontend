@@ -1,57 +1,58 @@
 import './Profile.css';
-import { useContext, useState, useEffect } from "react";
-
-import  useFormValidation   from '../../../configs/useFormValidation'
+import { useState, useContext } from "react";
 import { CurrentUserContext } from "../../../configs/currentUserContext";
+import mainApi from '../../../utils/MainApi';
 
-function Profile({onUpdateProfileData, onProfileExit}) {
-  const currentUser = useContext(CurrentUserContext);
-
-  const { values, handleChange, errors, isValid } = useFormValidation();
-  const [checkUser, setCheckUser] = useState(false);
-  const [nameError, setNameError] = useState('');
-  const [submitError, setSubmitError] = useState('');
-  const [submitString, setSubmitString] = useState('Редактировать');
-
-  useEffect(() => {
-    values.name = values.name || currentUser.name;
-    values.email = values.email || currentUser.email;
-
-    if (checkUser && values.name === currentUser.name && values.email === currentUser.email) {
-      setNameError('Имя совпадает с предыдущим');
-      setSubmitError('Email совпадает с предыдущим');
+function Profile({onProfileExit}) {
+    const currentUser = useContext(CurrentUserContext);
+    const [userName, setUserName] = useState(currentUser.name);
+    const [newUserName, setNewUserName] = useState(currentUser.name);
+    const [userEmail, setUserEmail] = useState(currentUser.email);
+    const [newUserEmail, setNewUserEmail] = useState(currentUser.email);
+    const [textInfo, setTextInfo] = useState(null);
+    const [isVisibleButton, setVisibleButton] = useState(false);
+  
+    function handelSubmit(e) {
+      e.preventDefault();
+  
+      mainApi.editUser(newUserName, newUserEmail)
+        .then((res) => {
+          setVisibleButton(false);
+          setUserName(newUserName);
+          setUserEmail(newUserEmail);
+          setTextInfo("Данные успешно изменены.");
+        })
+        .catch((err) => {
+          setTextInfo("Что то пошло не так.");
+          console.log("Ошибка сохранения данных ", err);
+        });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values]);
-
-  const handleInputValue = (e) => {
-    handleChange(e);
-    setNameError('');
-    setSubmitError('');
-    setCheckUser(true);
-  }
-
-  function handleSubmitForm(e) {
-    e.preventDefault();
-
-    onUpdateProfileData({
-      name: values.name,
-      email: values.email,
-    }, () => {
-      setCheckUser(false);
-      setSubmitString('Сохранено');
-      setTimeout(() => {
-        setSubmitString('Редактировать');
-      }, 2000);
-    }, setSubmitError);
-  }
-
-  const buttonDisabled = submitError.length > 0 ? true : !isValid;
-
+  
+    function handleNameChange(e) {
+      const name = e.target.value;
+      setNewUserName(name);
+  
+      if (name !== userName) {
+        setVisibleButton(true);
+      } else {
+        setVisibleButton(false);
+      }
+    }
+  
+    function handleEmailChange(e) {
+      const email = e.target.value;
+      setNewUserEmail(email);
+  
+      if (email !== userEmail) {
+        setVisibleButton(true);
+      } else {
+        setVisibleButton(false);
+      }
+    }
   return (
     <section className="profile">
-      <h1 className="profile__title">Привет, {currentUser.name}!</h1>
-      <form className="profile__form" onSubmit={handleSubmitForm}>
+      <h1 className="profile__title">{`Привет, ${newUserName}!`}</h1>
+      <form className="profile__form" onSubmit={handelSubmit}>
         <label className="profile__input-container">
             <span className="profile__text">Имя</span>
           <input
@@ -60,12 +61,11 @@ function Profile({onUpdateProfileData, onProfileExit}) {
             type="name"
             pattern="^[A-Za-zА-Яа-я-\s]+$"
             required
-            onChange={handleInputValue}
-            defaultValue={currentUser.name}
+            value={newUserName}
+              onChange={handleNameChange}
             formNoValidate
           />
         </label>
-        <span className='profile__span profile__span_error'>{errors.name || nameError}</span>
         <label className="profile__input-container">
         <span className="profile__text">E-mail</span>
           <input
@@ -74,19 +74,28 @@ function Profile({onUpdateProfileData, onProfileExit}) {
           type="email"
           pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
           required
-          defaultValue={currentUser.email}
-          onChange={handleInputValue}
+          value={newUserEmail}
+              onChange={handleEmailChange}
           formNoValidate
           />
         </label>
-        <span className='profile__span profile__span_error'>{errors.email || submitError}</span>
       </form>
       <div className='profile__container-btn'>
-      <button className={`profile__btn ${buttonDisabled ? "profile__btn_disabled" : ""}`} 
-      type="submit" disabled={buttonDisabled ? true : ''}>{submitString}</button>
-        <button className="profile__btn" type="button" onClick={onProfileExit}>
-          Выйти из аккаунта
-        </button>
+      <span className='profile__error'>{textInfo}</span>
+      <button
+              className="profile__btn profile__btn_submit"
+              type="submit"
+              disabled={!isVisibleButton}
+            >
+              Редактировать
+            </button>
+            <button
+              className="profile__btn profile__btn_out"
+              type="button"
+              onClick={onProfileExit}
+            >
+              Выйти из аккаунта
+            </button>
       </div>
     </section>
   );
