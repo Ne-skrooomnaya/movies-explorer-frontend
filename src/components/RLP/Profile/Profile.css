@@ -24,7 +24,6 @@
   display: flex;
   margin: 0 auto;
   flex-direction: column;
-  margin-bottom: 220px;
 }
 
 .profile__input-container {
@@ -41,6 +40,11 @@
 
 .profile__input-container:last-child {
   border: none;
+}
+
+.profile__container-btn {
+  margin-top: 220px;
+
 }
 
 .profile__input {

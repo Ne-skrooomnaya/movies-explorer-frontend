@@ -16,7 +16,6 @@ import * as auth from "../../utils/Auth";
 import { CurrentUserContext } from "../../configs/currentUserContext";
 import mainApi from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 
 const App = () => {
   const navigate = useNavigate();
@@ -24,13 +23,6 @@ const App = () => {
 
   const [movies, setMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  // const [userEmail, setUserEmail] = useState("");
-  // const [userName, setUserName] = useState("");
-  const [isInfoTooltip, setIsInfoTooltip] = useState(false);
-  const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
-  const [isGoodInfoTooltip, setIsGoodInfoTooltip] = useState(false);
-  // const [selectedCard, setSelectedCard] = useState(null);
-//   const [moviesToDelete, setMoviesToDelete] = useState([]);
 
 const [currentUser, setCurrentUser] = useState({});
 
@@ -39,32 +31,28 @@ useEffect(() => {
   }, [])
 
   useEffect(() => {
-    debugger
-    const token = localStorage.getItem('token');
-    mainApi.getUser(token).then((data) => {
+    const token = localStorage.getItem("token");
+    mainApi.getUser(token).then((user) => {
         setLoggedIn(true);
-        console.log(data.data);
-        
-        setCurrentUser(data);
-        // setUserEmail(data.email);
-        
+        setCurrentUser(user);
       }).catch((err) => {
         console.log(err);
       });
-  }, [loggedIn ]);
+  }, [loggedIn]);
 
-  useEffect(() => {
-      moviesApi.getMovies()
-      .then((response) => {
-        setMovies(response);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  }, []);
+useEffect(() => {
+  moviesApi.getMovies()
+  .then((response) => {
+    setMovies(response);
+  })
+  .catch((err) => {
+    alert(err);
+  });
+}, []);
 
   const checkToken = () => {
     const token = localStorage.getItem("token");
+    
     if (token) {
         auth.Token(token).then((user) => {
         if (user) {
@@ -85,6 +73,7 @@ useEffect(() => {
         if (user) {
             handleLogin({email, password});
         }
+        console.log('fff')
       })
       .catch((err) => {
         console.log(err);
@@ -95,7 +84,7 @@ useEffect(() => {
     return auth.login({ password, email })
       .then((res) => {
         if (res.token) {
-          mainApi.setToken(res.token);
+           mainApi.setToken(res.token);
           localStorage.setItem("token", res.token);
           setLoggedIn(true);
           navigate("/movies");
@@ -108,23 +97,12 @@ useEffect(() => {
   }
   
   const handleLogOut = () => {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem("token");
     setLoggedIn(false);
     navigate('/');
+    localStorage.clear();
+
   };
-
-
-  function updateProfile({name, email}) {
-    mainApi.editUser({name, email}).then(() => {
-        setIsInfoTooltip(true);
-        setIsGoodInfoTooltip(true);
-        setInfoTooltipMessage('Профиль успешно обновлен.')
-      })
-    .catch((err) =>  {
-      console.log(err);
-    });
-  }
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -141,22 +119,20 @@ useEffect(() => {
               component={Movies}
               loggedIn={loggedIn}
               movies={movies}
-              
             />
             } />
             <Route path="/saved-movies" element={<ProtectedRoute
               component={SavedMovies}
               loggedIn={loggedIn}
               movies={movies}
+
+
             />
             } />
             <Route path="/profile" element={<ProtectedRoute
               component={Profile}
               loggedIn={loggedIn}
               onProfileExit={handleLogOut} 
-               onUpdateProfileData={updateProfile}
-            // email={userEmail} 
-            // name={userName} 
             />
             } />
                   <Route path='*' element={<PageNotFound/>} /> 
@@ -170,30 +146,6 @@ useEffect(() => {
 
 export default App;
 
-// useEffect(() => {
-//     if (location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/profile'
-//         || location.pathname === '/saved-movies' || location.pathname === '/signin' || location.pathname === '/signup') {
-//         setIsHeader(true);
-//     } else {
-//         setIsHeader(false);
-//     }
-// }, [location, isHeader]);
-
-// useEffect(() => {
-//     if (location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/saved-movies') {
-//         setIsFooter(true);
-//     } else {
-//         setIsFooter(false);
-//     }
-// }, [location, isHeader]);
 
 
 
-//   useEffect(() => {
-//     if (loggedIn) {
-//       mainApi.getUser()
-//       .then((data) => {
-//         setCurrentUser(data);
-//       }).catch((err) => console.log(`Ошибка: ${err}`));
-//     }
-//   }, [loggedIn]);\

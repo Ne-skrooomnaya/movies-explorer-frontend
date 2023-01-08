@@ -45,27 +45,6 @@
   opacity: 0.8;
 }
 
-/* .header-menu__btn::before {
-    content: '';
-    position: absolute;
-    width: 28px;
-    height: 3px;
-    background: #000;
-    transform: translateY(-9px);
-    box-shadow: 0 9px #000;
-    transition: 0.2s;
-  }
-  
-  .header-menu__btn::after {
-    content: '';
-    position: absolute;
-    width: 28px;
-    height: 3px;
-    background: #000;
-    transform: translateY(9px);
-    transition: 0.2s;
-  } */
-
 .header-menu__btn_close {
   position: fixed;
   background-image: url(../../../../images/close.svg);

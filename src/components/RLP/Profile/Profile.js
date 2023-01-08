@@ -11,7 +11,7 @@ function Profile({onProfileExit}) {
     const [newUserEmail, setNewUserEmail] = useState(currentUser.email);
     const [textInfo, setTextInfo] = useState(null);
     const [isVisibleButton, setVisibleButton] = useState(false);
-  
+  // console.log(currentUser)
     function handelSubmit(e) {
       e.preventDefault();
   
@@ -51,7 +51,7 @@ function Profile({onProfileExit}) {
     }
   return (
     <section className="profile">
-      <h1 className="profile__title">{`Привет, ${newUserName}!`}</h1>
+      <h1 className="profile__title">{`Привет, ${!currentUser? 'Дорогой не зарегистрированный гость' : newUserName}!`}</h1>
       <form className="profile__form" onSubmit={handelSubmit}>
         <label className="profile__input-container">
             <span className="profile__text">Имя</span>
@@ -61,7 +61,7 @@ function Profile({onProfileExit}) {
             type="name"
             pattern="^[A-Za-zА-Яа-я-\s]+$"
             required
-            value={newUserName}
+            value={!newUserName? currentUser.user.name :  newUserName}
               onChange={handleNameChange}
             formNoValidate
           />
@@ -74,13 +74,12 @@ function Profile({onProfileExit}) {
           type="email"
           pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
           required
-          value={newUserEmail}
+          value={!newUserEmail? currentUser.user.email :  newUserEmail}
               onChange={handleEmailChange}
           formNoValidate
           />
         </label>
-      </form>
-      <div className='profile__container-btn'>
+        <div className='profile__container-btn'>
       <span className='profile__error'>{textInfo}</span>
       <button
               className="profile__btn profile__btn_submit"
@@ -97,6 +96,8 @@ function Profile({onProfileExit}) {
               Выйти из аккаунта
             </button>
       </div>
+      </form>
+
     </section>
   );
 };
