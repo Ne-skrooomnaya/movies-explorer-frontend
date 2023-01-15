@@ -1,6 +1,5 @@
 .movie {
-  width: 364px;
-  max-width: 100%;
+  max-width: 364px;
   max-height: 271px;
   border-radius: 6px;
   background: #fdfdfd;
@@ -8,31 +7,36 @@
   cursor: pointer;
   transition: 0.2s linear;
   list-style-type: none;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
+
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .movie:hover {
   opacity: 0.8;
 }
 
-.movie:hover .movie__delete {
-  background-image: url("../../../images/delete.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
 .movie__img {
-  display: block;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
 .movie__info {
-  height: 68px;
+  display: block;
+  max-width: 364px;
+  height: 203px;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 .movie__block {
+  max-width: 336px;
+  min-height: 68px;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -42,13 +46,18 @@
   padding: 0;
   margin-left: 14px;
   margin-right: 14px;
-  margin-bottom: 14px;
   align-items: center;
+}
+
+.movie__link {
+  width: 100%;
+  height: 200px;
 }
 
 .movie__name {
   margin: 0;
   padding: 0;
+
   margin-top: 14px;
   margin-bottom: 9px;
   font-weight: 500;
@@ -56,49 +65,10 @@
   line-height: 18px;
   color: #000000;
   max-width: 80%;
+  min-width: 280px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.movie__like {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  background-image: url("../../../images/nosave.svg");
-  background-repeat: no-repeat;
-  margin-top: 19px;
-  right: 0px;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  transition: opacity 0.2s linear;
-}
-
-.movie__like:hover {
-  opacity: 0.7;
-}
-
-.movie__delete {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  margin-right: 8px;
-  margin-top: 19px;
-  right: 0px;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  transition: opacity 0.2s linear;
-  background-image: url("../../../images/delete.svg");
-}
-
-.movie__delete:hover {
-  opacity: 0.8;
-}
-
-.movie__like_active {
-  background-image: url("../../../images/save.svg");
 }
 
 .movie__time {
@@ -111,10 +81,85 @@
   color: #a0a0a0;
 }
 
+.movie__button-text {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 11px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.movie__button {
+  position: absolute;
+  background-repeat: no-repeat;
+  padding: 0;
+  right: 0px;
+  top: 0px;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+
+  margin-top: 19px;
+  height: 30px;
+  width: 30px;
+  border: none;
+  background-color: #fdfdfd;
+}
+
+.movie__button-img {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.movie__button:hover {
+  transition: 0.3s;
+  opacity: 0.6;
+}
+
 @media (min-width: 550px) and (max-width: 768px) {
-  .movie__delete {
-    background-image: url("../../../images/delete.svg");
-    background-position: center;
-    background-repeat: no-repeat;
+  .movie {
+    height: 258px;
+  }
+
+  .movie__img {
+    height: 190px;
+    width: 339px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 550px) {
+  .movie {
+    height: 236px;
+    width: 300px;
+    margin: 0 auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0;
+  }
+
+  .movie__block {
+  }
+
+  .movie__name {
+    font-size: 12px;
+  }
+
+  .movie__time {
+    font-size: 10px;
+  }
+
+  .movie__info {
+    height: 168px;
+  }
+
+  /* .movie__link {
+      height: 168px;
+  } */
+
+  .movie__button {
+    margin-top: 14px;
+    margin-bottom: 14px;
   }
 }

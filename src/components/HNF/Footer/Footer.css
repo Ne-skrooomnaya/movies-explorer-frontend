@@ -1,8 +1,8 @@
 .footer {
   margin: 0;
   padding: 79px 70px 20px;
-  background-color: #fafafa;
-  font-family: 'Inter';
+  background-color: #ffffff;
+  font-family: "Inter";
   font-style: normal;
 }
 
@@ -11,8 +11,8 @@
   margin: 0 auto 20px;
   padding-bottom: 20px;
   text-align: center;
-  color: #8b8b8b;
-  border-bottom: 1px solid #E8E8E8;
+  color: #a0a0a0;
+  border-bottom: 1px solid #e8e8e8;
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
@@ -61,7 +61,7 @@
 }
 
 @media (min-width: 550px) and (max-width: 768px) {
-    .footer {
+  .footer {
     padding: 79px 30px 20px;
   }
 }
@@ -97,7 +97,7 @@
   }
 
   .footer__copyright {
-    color: #8b8b8b;
+    color: #a0a0a0;
     font-size: 12px;
   }
 }

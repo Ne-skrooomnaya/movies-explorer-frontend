@@ -14,7 +14,7 @@
   box-sizing: border-box;
   flex-direction: column;
   transition: right 0.2s ease-in-out;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   z-index: 2;
 }
@@ -121,6 +121,7 @@
     width: 40px;
     height: 43px;
     display: flex;
+    margin-right: 2px;
   }
 
   .header-menu__btn::before {

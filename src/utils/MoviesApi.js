@@ -1,36 +1,31 @@
 class MoviesApi {
   constructor({ baseUrl }) {
-      this._baseUrl = baseUrl;
-      // this._headers = headers;
+    this._baseUrl = baseUrl;
+    // this._headers = headers;
   }
 
   _checkResponse(res) {
     if (res.ok) {
-        return res.json();
+      return res.json();
     }
     return Promise.reject(`Ошибка: ${res.status}`);
-}
+  }
 
-getMovies() {
+  getMovies() {
     return fetch(`${this._baseUrl}/beatfilm-movies`, {
-        method: 'GET',
-        headers: this._headers
+      method: "GET",
+      headers: this._headers,
     }).then((res) => {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject('Не удалось отобразить карточки');
+      return Promise.reject("Не удалось отобразить карточки");
     });
   }
 }
 
-
 const moviesApi = new MoviesApi({
-  baseUrl: 'https://api.nomoreparties.co',
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-    'content-type': 'application/json'
-  }
+  baseUrl: "https://api.nomoreparties.co",
 });
 
-export default moviesApi
+export default moviesApi;

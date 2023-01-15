@@ -41,12 +41,12 @@
 }
 
 @media (min-width: 550px) and (max-width: 768px) {
-.notfound__link {
+  .notfound__link {
     margin-bottom: 222px;
-}
-.notfound__container {
+  }
+  .notfound__container {
     margin-bottom: 184px;
-}
+  }
 }
 
 @media (min-width: 320px) and (max-width: 550px) {
@@ -76,5 +76,5 @@
 
   .notfound__container {
     margin-bottom: 284px;
-}
+  }
 }

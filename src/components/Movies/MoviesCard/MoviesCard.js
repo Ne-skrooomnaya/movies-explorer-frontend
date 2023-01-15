@@ -1,32 +1,118 @@
-import './MoviesCard.css';
-import {useLocation} from 'react-router-dom';
-import React, {useState} from 'react';
+import "./MoviesCard.css";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import save from "../../../images/save.svg";
+import del from "../../../images/delete.svg";
+import nosave from "../../../images/nosave.svg";
 
-const MoviesCard = ({ movie }) => {
+const MoviesCard = ({
+  card,
+  saveMovies,
+  deleteMovieCard,
+  savedMovie,
+  submitButtonDisabled,
+}) => {
+  const location = useLocation();
+  const isSaved = card.id
+    ? savedMovie.map((i) => i.movieId).includes(card.id)
+    : location.pathname === "/saved-movies"
+    ? true
+    : "";
 
-    let hours = Math.trunc(movie.duration / 60);
-    let min = movie.duration - hours * 60;
+  function handleDelete() {
+    if (location.pathname === "/saved-movies") {
+      deleteMovieCard(card);
+    }
+    if (location.pathname === "/movies")
+      deleteMovieCard(savedMovie.find((i) => i.movieId === card.id));
+  }
 
-    const [like, setLike] = useState(false);
-    const handleLike = () => setLike(!like);
+  function handleSave() {
+    saveMovies({
+      country: card.country,
+      director: card.director,
+      duration: card.duration,
+      year: card.year,
+      description: card.description,
+      image: `https://api.nomoreparties.co/${card.image.url}`,
+      trailerLink: card.trailerLink,
+      nameRU: card.nameRU,
+      nameEN: card.nameEN,
+      thumbnail: `https://api.nomoreparties.co/${card.image.formats.thumbnail.url}`,
+      movieId: card.id,
+    });
+  }
 
-    const location = useLocation();
+  function convertHoursAndMinutes() {
+    const minutes = card.duration % 60;
+    const hours = Math.floor(card.duration / 60);
 
-    const movieLikeClass = location.pathname === '/saved-movies' ? 'movie__delete' : `movie__like ${like && 'movie__like_active'}`;
+    if (hours === 0) {
+      return `${card.duration} минут`;
+    }
+    return `${hours}ч ${minutes}м`;
+  }
 
-
-    return (
-        <li className='movie'>
-            <div className='movie__info' >
-                <div className='movie__block'>
-                    <h2 className='movie__name'>{movie.nameRU}</h2>
-                    <button className={movieLikeClass} onClick={handleLike} type='button'></button>
-                    <p className='movie__time'>{hours}ч {min}м</p>
-                </div>
-            </div>
-            <img className='movie__img' src={movie.image} alt={movie.nameRU}/>
-        </li>
-    );
-}
+  return (
+    <div className="movie" key={card.id || card.movieId}>
+      <div className="movie__block">
+        <h2 className="movie__name">{card.nameRU}</h2>
+        {location.pathname === "/saved-movies" && (
+          <button
+            className="movie__button"
+            onClick={handleDelete}
+            disabled={submitButtonDisabled ? true : false}
+          >
+            <img
+              className="movie__button-img"
+              alt="delete movie icon"
+              src={del}
+            />
+          </button>
+        )}
+        {location.pathname === "/movies" && (
+          <button
+            className={isSaved ? "movie__button" : "movie__button"}
+            onClick={isSaved ? handleDelete : handleSave}
+            disabled={submitButtonDisabled ? true : false}
+          >
+            {isSaved ? (
+              <img
+                className="movie__button-img"
+                alt="saved movie icon"
+                src={save}
+              />
+            ) : (
+              <img
+                className="movie__button-img"
+                alt="saved movie icon"
+                src={nosave}
+              />
+            )}
+          </button>
+        )}
+        <p className="movie__time">{convertHoursAndMinutes()}</p>
+      </div>
+      <div className="movie__info">
+        <a
+          href={card.trailerLink}
+          className="movie__link"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            className="movie__img"
+            src={
+              location.pathname === "/saved-movies"
+                ? `${card.image}`
+                : `https://api.nomoreparties.co${card.image.url}`
+            }
+            alt="movie poster"
+          />
+        </a>
+      </div>
+    </div>
+  );
+};
 
 export default MoviesCard;

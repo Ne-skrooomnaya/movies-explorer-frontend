@@ -68,14 +68,11 @@
 
 .about__backend {
   background-color: #3ddc84;
-  /* width: 228px; */
   width: 20%;
   height: 36px;
   padding: 9px 0 0;
   box-sizing: border-box;
   margin-bottom: 14px;
-  /* line-height: 17px;
-    letter-spacing: 0px; */
   font-weight: 500;
 }
 

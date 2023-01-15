@@ -1,23 +1,40 @@
-import './SearchForm.css';
-import FilterCheckBox from '../FilterCheckBox/FilterCheckBox';
-import search from '../../../images/search.svg'
+import React from "react";
+import FilterCheckBox from "../FilterCheckBox/FilterCheckBox";
+import "./SearchForm.css";
+import search from "../../../images/search.svg";
 
-const SearchForm = () => {
+const SearchForm = ({
+  handleFilmSearch,
+  handleFilmChange,
+  film,
+  showShortMovies,
+  checkShorts,
+}) => {
   return (
-    <section className='search content-page'>
-      <div className='search__container'>
-        <form className='search__form' action='search'>
+    <section className="search">
+      <div className="search__container">
+        <form
+          className="search__form"
+          name="search"
+          onSubmit={handleFilmSearch}
+          noValidate
+        >
           <input
-          className='search__input'
-          placeholder='Фильм'
-          type='text'
-          required
+            className="search__input"
+            type="text"
+            defaultValue={film || ""}
+            onChange={handleFilmChange}
+            placeholder="Фильм"
+            required
           />
-          <button className='search__btn' type='submit'>
-            <img className='search__icon' src={search} alt='поиск' />
+          <button className="search__btn" type="submit">
+            <img className="search__icon" src={search} alt="поиск" />
           </button>
         </form>
-        <FilterCheckBox />
+        <FilterCheckBox
+          showShortMovies={showShortMovies}
+          checkShorts={checkShorts}
+        />
       </div>
     </section>
   );

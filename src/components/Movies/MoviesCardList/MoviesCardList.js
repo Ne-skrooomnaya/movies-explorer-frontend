@@ -1,28 +1,71 @@
-import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
-import movies from '../../../configs/utils'
-import { useLocation } from 'react-router-dom';
+import "./MoviesCardList.css";
+import MoviesCard from "../MoviesCard/MoviesCard";
+// import movies from '../../../utils/utils'
+import React from "react";
+import { useLocation } from "react-router-dom";
+import Preloader from "../Preloader/Preloader";
 
-const MoviesCardList = () => {
-
+const MoviesCardList = ({
+  cards,
+  isLoading,
+  error,
+  handleLoadMore,
+  visibleMoviesCount,
+  errorText,
+  saveMovies,
+  deleteMovieCard,
+  savedMovie,
+  submitButtonDisabled,
+}) => {
   const location = useLocation();
 
-  const moviesButtonClass = location.pathname === '/saved-movies' ? 'movies__btn_hidden' : 'movies__btn';
+  console.log(cards);
 
   return (
     <section className="movies">
-        <div className="movies__container">
-            <ul className="movies__list">
-                {movies.map((movie) => {
-                    return (
-                    <MoviesCard key={movie._id} movie={movie} />
-                    );
-                })}
-            </ul>
-        </div>
-        <div className='movies__container-btn'>
-            <button className={moviesButtonClass} type='button'>Ещё</button>
-        </div>
+      {isLoading ? (
+        <Preloader />
+      ) : error ? (
+        <p className="movies__error">{errorText}</p>
+      ) : (
+        <>
+          <div className="movies__container">
+            {location.pathname === "/movies" &&
+              cards
+                .slice(0, visibleMoviesCount)
+                .map((card) => (
+                  <MoviesCard
+                    key={card.id}
+                    card={card}
+                    savedMovie={savedMovie}
+                    deleteMovieCard={deleteMovieCard}
+                    saveMovies={saveMovies}
+                    submitButtonDisabled={submitButtonDisabled}
+                  />
+                ))}
+            {location.pathname === "/saved-movies" &&
+              cards.map((card) => (
+                <MoviesCard
+                  key={card.movieId}
+                  card={card}
+                  deleteMovieCard={deleteMovieCard}
+                  saveMovies={saveMovies}
+                  savedMovie={savedMovie}
+                  submitButtonDisabled={submitButtonDisabled}
+                />
+              ))}
+          </div>
+          {location.pathname === "/saved-movies" && (
+            <div className="movies__container-empty"></div>
+          )}
+          {location.pathname === "/movies" &&
+            visibleMoviesCount < cards.length && (
+              <div className="movies__container-btn" onClick={handleLoadMore}>
+                <button className="movies__btn">Ещё</button>
+              </div>
+            )}
+        </>
+      )}
     </section>
   );
 };
