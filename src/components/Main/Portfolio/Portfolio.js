@@ -1,5 +1,7 @@
+import React from 'react'
 import "./Portfolio.css";
 import str from "../../../images/str.svg";
+
 const Portfolio = () => {
   return (
     <section className="portfolio">
