@@ -101,8 +101,8 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  // baseUrl: "http://localhost:3002",
-  baseUrl:'https://api.angelDiplomnaya.nomoredomains.club',
+  baseUrl: "http://localhost:3002",
+  // baseUrl:'https://api.angelDiplomnaya.nomoredomains.club',
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
     "content-type": "application/json",
