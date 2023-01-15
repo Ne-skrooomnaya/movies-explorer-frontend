@@ -1,3 +1,4 @@
+import React from 'react'
 import "./Profile.css";
 import { useState, useContext } from "react";
 import { CurrentUserContext } from "../../../configs/currentUserContext";
