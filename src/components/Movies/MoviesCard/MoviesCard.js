@@ -98,7 +98,7 @@ const MoviesCard = ({
           href={card.trailerLink}
           className="movie__link"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <img
             className="movie__img"
