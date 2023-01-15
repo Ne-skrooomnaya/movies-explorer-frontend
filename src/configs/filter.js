@@ -8,6 +8,8 @@ export const movieFilter = (allMovies, film, checkShorts) => {
         movieCard.nameRU.toLowerCase().includes(film.toLowerCase()) &&
         movieCard.duration <= 40
       );
+    } else {
+        return null
     }
   });
 };
