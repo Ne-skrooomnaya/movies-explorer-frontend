@@ -1,3 +1,5 @@
+import React from 'react'
+// import ReactDOM from 'react-dom'
 import "./Footer.css";
 import { useLocation } from "react-router-dom";
 
