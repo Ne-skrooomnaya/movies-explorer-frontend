@@ -66,7 +66,7 @@
   }
 }
 
-@media (min-width: 550px) and (max-width: 768px) {
+@media (min-width: 551px) and (max-width: 768px) {
   .movies__container {
     grid-template-columns: repeat(auto-fit, 339px);
     row-gap: 35px;
@@ -74,7 +74,7 @@
   }
 
   .movies__container-btn {
-    width: 708px;
+    max-width: 708px;
     margin-top: 80px;
   }
 
