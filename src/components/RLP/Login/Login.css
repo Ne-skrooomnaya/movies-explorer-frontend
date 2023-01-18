@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
+  align-items: center;
 }
 
 .form__input-container {
