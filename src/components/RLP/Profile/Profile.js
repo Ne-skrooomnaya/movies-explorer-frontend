@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import "./Profile.css";
 import { useState, useContext } from "react";
 import { CurrentUserContext } from "../../../configs/currentUserContext";
@@ -17,8 +17,8 @@ function Profile({ onProfileExit }) {
 
   function handelSubmit(e) {
     e.preventDefault();
-    mainApi
-      .editUser(newUserName, newUserEmail)
+    debugger
+    mainApi.editUser(newUserName, newUserEmail)
       .then((res) => {
         setVisibleButton(false);
         setUserName(newUserName);
@@ -34,7 +34,6 @@ function Profile({ onProfileExit }) {
   function handleNameChange(e) {
     const name = e.target.value;
     setNewUserName(name);
-
     if (name !== userName) {
       setVisibleButton(true);
     } else {

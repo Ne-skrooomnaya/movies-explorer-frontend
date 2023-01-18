@@ -81,14 +81,6 @@
   color: #a0a0a0;
 }
 
-.movie__button-text {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 11px;
-  color: #ffffff;
-  margin: 0;
-}
-
 .movie__button {
   position: absolute;
   background-repeat: no-repeat;
@@ -97,7 +89,6 @@
   top: 0px;
   cursor: pointer;
   transition: opacity 0.2s linear;
-
   margin-top: 19px;
   height: 30px;
   width: 30px;
@@ -139,9 +130,6 @@
     padding: 0;
   }
 
-  .movie__block {
-  }
-
   .movie__name {
     font-size: 12px;
   }
@@ -152,14 +140,5 @@
 
   .movie__info {
     height: 168px;
-  }
-
-  /* .movie__link {
-      height: 168px;
-  } */
-
-  .movie__button {
-    margin-top: 14px;
-    margin-bottom: 14px;
   }
 }

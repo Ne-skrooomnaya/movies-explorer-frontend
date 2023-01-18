@@ -3,13 +3,13 @@ import Logo from "../../Logo/Logo";
 import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
 
-function Login(props) {
+function Login({ handleLogin }) {
   const [state, setState] = useState({
     password: "",
     email: "",
   });
-
   const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,11 +18,29 @@ function Login(props) {
       [name]: value,
     }));
     setErrors({ ...errors, [name]: e.target.validationMessage });
+    if (name === "email") {
+      if (value.length === 0) {
+        setErrors({
+          ...errors,
+          [name]: "Пожалуйста заполните это поле. Пример: Anna@em.ru",
+        });
+      }
+    }
+    if (name === "password") {
+      if (value.length === 0) {
+        setErrors({
+          ...errors,
+          [name]:
+            "Пожалуйста заполните это поле: от 2 до 40 символов и без использования специальных знаков",
+        });
+      }
+    }
+    setIsValid(e.target.closest("form").checkValidity());
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.handleLogin(state);
+    handleLogin(state);
   };
 
   return (
@@ -36,7 +54,7 @@ function Login(props) {
             className="form__input"
             name="email"
             type="text"
-            value={state.email}
+            value={state.email || ""}
             onChange={handleChange}
             id="login__email"
             required
@@ -59,7 +77,7 @@ function Login(props) {
             className="form__input"
             name="password"
             type="password"
-            value={state.password}
+            value={state.password || ""}
             onChange={handleChange}
             id="login__password"
             required
@@ -76,16 +94,22 @@ function Login(props) {
             {errors.password}
           </span>
         </label>
+        <button
+          className={`form__btn-submit ${
+            !isValid ? "form__btn-submit_disabled" : ""
+          }`}
+          type="submit"
+          disabled={!isValid}
+        >
+          Войти
+        </button>
+        <div className="form__subtitle">
+          <span className="form__text">Ещё не зарегистрированы?</span>
+          <NavLink className="form__link" to="/signup">
+            Регистрация
+          </NavLink>
+        </div>
       </form>
-      <button className="form__btn-submit" onClick={handleSubmit} type="button">
-        Войти
-      </button>
-      <div className="form__subtitle">
-        <span className="form__text">Ещё не зарегистрированы?</span>
-        <NavLink className="form__link" to="/signup">
-          Регистрация
-        </NavLink>
-      </div>
     </section>
   );
 }

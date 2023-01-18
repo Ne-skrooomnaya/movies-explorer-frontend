@@ -14,6 +14,7 @@ import "./App.css";
 import * as auth from "../../utils/Auth";
 import { CurrentUserContext } from "../../configs/currentUserContext";
 import mainApi from "../../utils/MainApi";
+import moviesApi from "../../utils/MoviesApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 const App = () => {
@@ -23,7 +24,10 @@ const App = () => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [savedMovie, setSavedMovie] = useState([]);
-  const [messageError, setMessageError] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorText, setErrorText] = useState("");
+  const [film, setFilm] = useState(getSearchStoreValue());
+  const [allMovies, setAllMovies] = useState(JSON.parse(localStorage.getItem("allMovies")) || []);
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
@@ -44,30 +48,62 @@ const App = () => {
   }, [localStorage.getItem("token")]);
 
   useEffect(() => {
-    setIsLoading(true);
     if (localStorage.getItem("token")) {
-      mainApi
-        .getMovies()
-        .then((res) => {
-          setSavedMovie(
-            res.data.filter((i) => i.owner._id === currentUser._id)
-          );
-        })
-        .catch((err) => console.log(err));
+      getMoviesSaved();
     }
-  }, []);
+  }, [currentUser]);
+
+  function getMoviesSaved() {
+    mainApi
+      .getMovies()
+      .then((res) => {
+        setSavedMovie(res.data.filter((i) => i.owner === currentUser._id));
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  function getMovies() {
+    moviesApi
+      .getMovies()
+      .then((res) => {
+        setIsLoading(false);
+        localStorage.setItem("allMovies", JSON.stringify(res));
+        setAllMovies(res);
+        localStorage.setItem("filmSearch", film);
+      })
+      .catch(() => {
+        setError(true);
+        setErrorText(
+          "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  function getSearchStoreValue() {
+    const searchStoreValue = localStorage.getItem("filmSearch");
+    if (!searchStoreValue) {
+      return "";
+    }
+    return searchStoreValue;
+  }
 
   const checkToken = () => {
     const token = localStorage.getItem("token");
     if (token) {
-      auth
-        .Token(token)
+      auth.CheckToken(token)
         .then((user) => {
           if (user) {
             setCurrentUser(user);
             setLoggedIn(true);
             console.log("success");
-            navigate("/movies");
+            
           } else {
             setLoggedIn(false);
           }
@@ -84,14 +120,13 @@ const App = () => {
       .then((user) => {
         if (user) {
           handleLogin({ email, password });
+          navigate("/movies");
         }
         console.log("fff");
       })
-      .catch(
-        setMessageError({
-          text: "E-mail занят",
-        })
-      );
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleLogin = ({ email, password }) => {
@@ -105,18 +140,26 @@ const App = () => {
           navigate("/movies");
           checkToken();
         }
-        console.log("aaa");
       })
-      .catch(
-        setMessageError({
-          text: "Что-то не так! Попробуйте ещё раз.",
-        })
-      );
+      .catch((err) => {
+        console.log("Ошибка сохранения данных ", err);
+      });
   };
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem('moviesAll')
+    localStorage.removeItem("movies");
+    localStorage.removeItem("word");
+    localStorage.removeItem("checkbox");
+    localStorage.removeItem("collection");
+    localStorage.removeItem("moviesTumbler");
+    localStorage.removeItem("moviesInputSearch");
+    localStorage.removeItem("savedMoviesTumbler");
+    localStorage.removeItem("savedMoviesInputSearch");
+    localStorage.clear();
     setLoggedIn(false);
+
     navigate("/");
   };
 
@@ -141,18 +184,11 @@ const App = () => {
           <Routes>
             <Route
               path="/signup"
-              element={
-                <Register
-                  textError={messageError}
-                  handleRegister={handleRegister}
-                />
-              }
+              element={<Register handleRegister={handleRegister} />}
             />
             <Route
               path="/signin"
-              element={
-                <Login textError={messageError} handleLogin={handleLogin} />
-              }
+              element={<Login handleLogin={handleLogin} />}
             />
             <Route path="/" element={<Main />} />
             <Route
@@ -166,6 +202,17 @@ const App = () => {
                   deleteMovieCard={deleteMovieCard}
                   setSubmitButtonDisabled={setSubmitButtonDisabled}
                   submitButtonDisabled={submitButtonDisabled}
+                  getMovies={getMovies}
+                  allMovies={allMovies}
+                  setAllMovies={setAllMovies}
+                  film={film}
+                  setFilm={setFilm}
+                  error={error}
+                  setError={setError}
+                  errorText={errorText}
+                  setErrorText={setErrorText}
+                  getSearchStoreValue={getSearchStoreValue}
+                  getMoviesSaved={getMoviesSaved}
                 />
               }
             />

@@ -3,7 +3,7 @@ import SearchForm from "../Movies/SearchForm/SearchForm";
 import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import React, { useEffect, useState } from "react";
 import "../Movies/Movies.css";
-import { movieFilter } from "../../configs/filter";
+import { filter } from "../../configs/filter";
 
 const SavedMovies = ({
   savedMovie,
@@ -37,7 +37,7 @@ const SavedMovies = ({
   }, [deleteMovieCard]);
 
   useEffect(() => {
-    const filteredMovies = movieFilter(savedMovie, film, checkShorts);
+    const filteredMovies = filter(savedMovie, film, checkShorts);
     setSearchResult(filteredMovies);
     setDoSearch(false);
     setError(false);

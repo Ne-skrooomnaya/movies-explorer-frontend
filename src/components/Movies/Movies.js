@@ -3,10 +3,20 @@ import SearchForm from "./SearchForm/SearchForm";
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import "./Movies.css";
 import mainApi from "../../utils/MainApi";
-import moviesApi from "../../utils/MoviesApi";
-import { movieFilter } from "../../configs/filter";
+import { filter } from "../../configs/filter";
+import { WIDTH_1280, WIDTH_768 } from "../../configs/Resize";
 
 const Movies = ({
+  getMoviesSaved,
+  film,
+  setFilm,
+  setAllMovies,
+  allMovies,
+  error,
+  errorText,
+  setError,
+  setErrorText,
+  getMovies,
   setSavedMovie,
   savedMovie,
   deleteMovieCard,
@@ -14,7 +24,6 @@ const Movies = ({
   setSubmitButtonDisabled,
 }) => {
   const [movie, setMovie] = useState([]);
-  const [film, setFilm] = useState(getSearchStoreValue());
   const [width, setWidth] = useState(window.innerWidth);
   const [visibleMoviesCount, setVisibleMoviesCount] = useState(
     getFirstRows(width)
@@ -23,16 +32,10 @@ const Movies = ({
   const [checkShorts, setCheckShorts] = useState(
     JSON.parse(localStorage.getItem("checkBox")) || false
   );
-  const [allMovies, setAllMovies] = useState(
-    JSON.parse(localStorage.getItem("allMovies")) || []
-  );
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorText, setErrorText] = useState("");
 
   function saveMovies(movie) {
     setSubmitButtonDisabled(true);
-    console.log(movie._id);
     mainApi
       .saveMovie(
         movie.country,
@@ -51,8 +54,10 @@ const Movies = ({
         setSavedMovie([res, ...savedMovie]);
       })
       .catch((err) => console.log(err))
-      .finally(() => setSubmitButtonDisabled(false));
-    console.log(movie.movieId);
+      .finally(() => {
+        setSubmitButtonDisabled(false);
+        getMoviesSaved();
+      });
   }
 
   useEffect(() => {
@@ -64,10 +69,10 @@ const Movies = ({
   }, [width]);
 
   function getFirstRows(width) {
-    if (width >= 1280) {
+    if (width >= WIDTH_1280) {
       return 12;
     }
-    if (width >= 768) {
+    if (width >= WIDTH_768) {
       return 8;
     } else {
       return 5;
@@ -75,7 +80,7 @@ const Movies = ({
   }
 
   const getLoad = (width) => {
-    if (width >= 1280) {
+    if (width >= WIDTH_1280) {
       return 3;
     }
     return 2;
@@ -87,7 +92,7 @@ const Movies = ({
 
   useEffect(() => {
     setError(false);
-    const moviesToDisplay = movieFilter(allMovies, film, checkShorts);
+    const moviesToDisplay = filter(allMovies, film, checkShorts);
     localStorage.setItem("filteredMovies", JSON.stringify(moviesToDisplay));
     localStorage.setItem("checkBox", checkShorts);
     const filteredMoviesInLocal =
@@ -105,14 +110,6 @@ const Movies = ({
     setCheckShorts(!checkShorts);
   }
 
-  function getSearchStoreValue() {
-    const searchStoreValue = localStorage.getItem("filmSearch");
-    if (!searchStoreValue) {
-      return "";
-    }
-    return searchStoreValue;
-  }
-
   function handleFilmChange(e) {
     setFilm(e.target.value);
   }
@@ -120,31 +117,15 @@ const Movies = ({
   function handleFilmSearch(e) {
     e.preventDefault();
     setError(false);
-    setIsLoading(true);
+    setIsLoading(false);
 
     if (film === "") {
       setIsLoading(false);
-      setErrorText("введите ключевое слово в поиск");
+      setErrorText("Нужно ввести ключевое слово");
       return setError(true);
     }
     if (!moviesInLocal) {
-      moviesApi
-        .getMovies()
-        .then((res) => {
-          setIsLoading(false);
-          localStorage.setItem("allMovies", JSON.stringify(res));
-          setAllMovies(res);
-          localStorage.setItem("filmSearch", film);
-        })
-        .catch(() => {
-          setError(true);
-          setErrorText(
-            "Во время запроса произошла ошибка. Подождите немного и попробуйте ещё раз"
-          );
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      getMovies();
     } else {
       setAllMovies(moviesInLocal);
       setIsLoading(false);

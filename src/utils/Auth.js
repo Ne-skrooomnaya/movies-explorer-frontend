@@ -1,5 +1,5 @@
-// export const baseUrl = "http://localhost:3002";
-export const baseUrl = "https://api.angelDiplomnaya.nomoredomains.club";
+export const baseUrl = "http://localhost:3002";
+// export const baseUrl = "https://api.angelDiplomnaya.nomoredomains.club";
 
 const checkResponse = (res) => {
   if (res.ok) {
@@ -31,7 +31,7 @@ export const login = ({ password, email }) => {
   }).then(checkResponse);
 };
 
-export const Token = (token) => {
+export const CheckToken = (token) => {
   return fetch(`${baseUrl}/users/me`, {
     method: "GET",
     headers: {

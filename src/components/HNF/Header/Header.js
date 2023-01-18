@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import "./Header.css";
 import Navigation from "../Navigation/Navigation";
 import Logo from "../../Logo/Logo";

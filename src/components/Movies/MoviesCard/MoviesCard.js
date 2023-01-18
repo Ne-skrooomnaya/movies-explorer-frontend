@@ -85,7 +85,7 @@ const MoviesCard = ({
             ) : (
               <img
                 className="movie__button-img"
-                alt="saved movie icon"
+                alt="nosaved movie icon"
                 src={nosave}
               />
             )}

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import Logo from "../../Logo/Logo";
 import React, { useState } from "react";
 
-function Register(props) {
+function Register({ handleRegister }) {
   const [state, setState] = useState({
     password: "",
     email: "",
@@ -11,19 +11,43 @@ function Register(props) {
   });
 
   const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setState({
-      ...state,
+    setState((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
     setErrors({ ...errors, [name]: e.target.validationMessage });
+    if (name === "name") {
+      if (value.length === 0) {
+        setErrors({ ...errors, [name]: "Пожалуйста заполните это поле" });
+      }
+    }
+    if (name === "email") {
+      if (value.length === 0) {
+        setErrors({
+          ...errors,
+          [name]: "Пожалуйста заполните это поле. Пример: Anna@em.ru",
+        });
+      }
+    }
+    if (name === "password") {
+      if (value.length === 0) {
+        setErrors({
+          ...errors,
+          [name]:
+            "Пожалуйста заполните это поле: от 2 до 40 символов и без использования специальных знаков",
+        });
+      }
+    }
+    setIsValid(e.target.closest("form").checkValidity());
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.handleRegister(state);
+    handleRegister(state);
   };
 
   return (
@@ -45,14 +69,14 @@ function Register(props) {
             placeholder="Имя"
             pattern="[A-Za-zа-яА-ЯёЁ0-9-\s]{2,40}"
           />
+          <span
+            className={`login__input-error ${
+              errors.name ? "login__input-error_show" : ""
+            }`}
+          >
+            {errors.name}
+          </span>
         </label>
-        <span
-          className={`login__input-error ${
-            errors.name ? "login__input-error_show" : ""
-          }`}
-        >
-          {errors.name}
-        </span>
         <label className="form__input-container">
           <span className="form__input-text">E-mail</span>
           <input
@@ -67,14 +91,14 @@ function Register(props) {
             placeholder="E-mail"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           />
+          <span
+            className={`login__input-error ${
+              errors.email ? "login__input-error_show" : ""
+            }`}
+          >
+            {errors.email}
+          </span>
         </label>
-        <span
-          className={`login__input-error ${
-            errors.email ? "login__input-error_show" : ""
-          }`}
-        >
-          {errors.email}
-        </span>
         <label className="form__input-container">
           <span className="form__input-text">Пароль</span>
           <input
@@ -89,24 +113,31 @@ function Register(props) {
             placeholder="Пароль"
             pattern="[\w]{2,40}$"
           />
+          <span
+            className={`login__input-error ${
+              errors.password ? "login__input-error_show" : ""
+            }`}
+          >
+            {errors.password}
+          </span>
         </label>
-        <span
-          className={`login__input-error ${
-            errors.password ? "login__input-error_show" : ""
+
+        <button
+          className={`form__btn_reg-submit ${
+            !isValid ? "form__btn-submit_disabled" : ""
           }`}
+          type="submit"
+          disabled={!isValid}
         >
-          {errors.password}
-        </span>
+          Зарегистрироваться
+        </button>
+        <div className="form__subtitle">
+          <span className="form__text">Уже зарегистрированы?</span>
+          <NavLink className="form__link" to="/signin">
+            Войти
+          </NavLink>
+        </div>
       </form>
-      <button className="form__btn-submit" type="submit" onClick={handleSubmit}>
-        Зарегистрироваться
-      </button>
-      <div className="form__subtitle">
-        <span className="form__text">Уже зарегистрированы?</span>
-        <NavLink className="form__link" to="/signin">
-          Войти
-        </NavLink>
-      </div>
     </section>
   );
 }
