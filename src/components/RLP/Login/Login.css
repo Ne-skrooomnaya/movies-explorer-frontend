@@ -5,7 +5,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   box-sizing: border-box;
 }
 
@@ -107,8 +106,8 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  margin: 0 auto;
   justify-content: center;
+  width: 396px;
 }
 
 .form__text {
@@ -247,6 +246,8 @@
 
   .form__btn_reg-submit {
     margin-top: 109px;
+    width: 260px;
+
   }
 
   .form__text {
