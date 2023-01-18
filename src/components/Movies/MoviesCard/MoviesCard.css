@@ -1,0 +1,144 @@
+.movie {
+  max-width: 364px;
+  max-height: 271px;
+  border-radius: 6px;
+  background: #fdfdfd;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: 0.2s linear;
+  list-style-type: none;
+  font-family: "Inter";
+  font-style: normal;
+
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movie:hover {
+  opacity: 0.8;
+}
+
+.movie__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie__info {
+  display: block;
+  max-width: 364px;
+  height: 203px;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.movie__block {
+  max-width: 336px;
+  min-height: 68px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  margin-left: 14px;
+  margin-right: 14px;
+  align-items: center;
+}
+
+.movie__link {
+  width: 100%;
+  height: 200px;
+}
+
+.movie__name {
+  margin: 0;
+  padding: 0;
+
+  margin-top: 14px;
+  margin-bottom: 9px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  color: #000000;
+  max-width: 80%;
+  min-width: 280px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.movie__time {
+  margin: 0;
+  width: 80%;
+  margin-bottom: 14px;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #a0a0a0;
+}
+
+.movie__button {
+  position: absolute;
+  background-repeat: no-repeat;
+  padding: 0;
+  right: 0px;
+  top: 0px;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+  margin-top: 19px;
+  height: 30px;
+  width: 30px;
+  border: none;
+  background-color: #fdfdfd;
+}
+
+.movie__button-img {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.movie__button:hover {
+  transition: 0.3s;
+  opacity: 0.6;
+}
+
+@media (min-width: 550px) and (max-width: 768px) {
+  .movie {
+    height: 258px;
+  }
+
+  .movie__img {
+    height: 190px;
+    width: 339px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 550px) {
+  .movie {
+    height: 236px;
+    width: 300px;
+    margin: 0 auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0;
+  }
+
+  .movie__name {
+    font-size: 12px;
+  }
+
+  .movie__time {
+    font-size: 10px;
+  }
+
+  .movie__info {
+    height: 168px;
+  }
+}

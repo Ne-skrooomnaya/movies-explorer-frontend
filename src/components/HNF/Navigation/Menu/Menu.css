@@ -1,0 +1,149 @@
+.header-menu__nav {
+  display: flex;
+  width: 100%;
+  max-width: 520px;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 160px 90px 90px;
+  justify-content: space-between;
+  position: fixed;
+  right: -100%;
+  top: 0;
+  box-sizing: border-box;
+  flex-direction: column;
+  transition: right 0.2s ease-in-out;
+  font-family: "Inter";
+  font-style: normal;
+  z-index: 2;
+}
+
+.header-menu__nav_opened {
+  right: 0;
+}
+
+.header-menu__btn {
+  background-color: transparent;
+  display: none;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  margin: 0;
+  border: none;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  transition: opacity 0.2s linear;
+  margin-right: 10px;
+  background-image: url(../../../../images/popup.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.header-menu__btn:hover {
+  opacity: 0.8;
+}
+
+.header-menu__btn_close {
+  position: fixed;
+  background-image: url(../../../../images/close.svg);
+  right: 30px;
+  z-index: 2;
+}
+
+.header-menu__btn_close::before {
+  box-shadow: 0 0 #000;
+  width: 22px;
+  height: 3px;
+}
+
+.header-menu__btn_close::after {
+  width: 22px;
+  height: 3px;
+}
+
+.header-menu__nav-container {
+  display: flex;
+  list-style-type: none;
+  flex-direction: column;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+}
+
+.header-menu__link {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000;
+  text-decoration: none;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.header-menu__link:hover {
+  opacity: 0.7;
+}
+
+.header-menu__link-active {
+  color: #000;
+  text-decoration: none;
+  font-size: 18px;
+  border-bottom: 2px solid #000;
+}
+
+.header-menu__background {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  min-height: 3250px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 1;
+}
+
+.header-menu__background_active {
+  display: block;
+}
+
+@media (min-width: 530px) and (max-width: 768px) {
+  .header-menu__btn {
+    display: flex;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 530px) {
+  .header-menu__btn {
+    width: 40px;
+    height: 43px;
+    display: flex;
+    margin-right: 2px;
+  }
+
+  .header-menu__btn::before {
+    width: 22px;
+    height: 2.5px;
+  }
+
+  .header-menu__btn::after {
+    width: 22px;
+    height: 2.5px;
+  }
+
+  .header-menu__nav {
+    padding: 144px 10px 46px;
+  }
+
+  .header-menu__nav-container {
+    gap: 24px;
+    width: 300px;
+  }
+
+  .header-menu__btn_close {
+    right: 21px;
+  }
+}
